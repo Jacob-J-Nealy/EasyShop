@@ -39,7 +39,7 @@ public class CategoriesController
      * Method Description
      * - Returns List of All Categories
      */
-    @RequestMapping(path = "/categories", method = RequestMethod.GET)
+    @GetMapping
     public List<Category> getAll() {
 
         List<Category> categories = categoryDao.getAllCategories();
