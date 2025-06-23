@@ -30,11 +30,16 @@ public class CategoriesController
         this.productDao = productDao;
     }
 
+    /**
+     * Method Description
+     * - Returns List of All Categories
+     */
     @RequestMapping(path = "/categories", method = RequestMethod.GET)
-    public List<Category> getAll(@RequestParam()) {
-        // find and return all categories
+    public List<Category> getAll() {
 
-        return null;
+        List<Category> categories = categoryDao.getAllCategories();
+
+        return categories;
     }
 
     // add the appropriate annotation for a get action
