@@ -63,18 +63,20 @@ public class CategoriesController
        return productDao.listByCategoryId(categoryId);
     }
 
-    // add annotation to call this method for a POST action
-    // add annotation to ensure that only an ADMIN can call this function
+    /**
+     * Method Description
+     * - Adds a New Category
+     */
     @RequestMapping(path = "categories/{categoryId}", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
     public Category addCategory(@RequestBody Category category)
     {
-        categoryDao.create(category);
-        return category;
+        return categoryDao.create(category);
     }
 
     // add annotation to call this method for a PUT (update) action - the url path must include the categoryId
     // add annotation to ensure that only an ADMIN can call this function
+    
     public void updateCategory(@PathVariable int id, @RequestBody Category category)
     {
         // update the category by id
