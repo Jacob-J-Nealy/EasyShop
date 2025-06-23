@@ -20,6 +20,7 @@ import java.util.List;
 // Rest Controller Class Annotation
 @RestController
 @RequestMapping("/categories")
+@CrossOrigin
 public class CategoriesController
 {
     // Class Attributes
@@ -31,6 +32,7 @@ public class CategoriesController
     public CategoriesController(CategoryDao categoryDao, ProductDao productDao) {
         this.categoryDao = categoryDao;
         this.productDao = productDao;
+
     }
 
     /**
@@ -75,9 +77,6 @@ public class CategoriesController
         return categoryDao.create(category);
     }
 
-
-    // add annotation to ensure that only an ADMIN can call this function
-
     /**
      * Method Description
      * - Update an Existing Category
@@ -89,17 +88,14 @@ public class CategoriesController
         categoryDao.update(id, category);
     }
 
-
-    // add annotation to call this method for a DELETE action - the url path must include the categoryId
-    // add annotation to ensure that only an ADMIN can call this function
     /**
      * Method Description
      * - Update an Existing Category
      */
-    @RequestMapping
+    @RequestMapping(path = "/categories/{categoryId}", method = RequestMethod.DELETE)
     @PreAuthorize("hasRole('ADMIN')")
-    public void deleteCategory(@PathVariable int id)
-    {
-        // delete the category by id
+    public void deleteCategory(@PathVariable int id) {
+        categoryDao.delete(id);
+
     }
 }
