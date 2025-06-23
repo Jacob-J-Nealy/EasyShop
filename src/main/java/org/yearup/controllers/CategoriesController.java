@@ -50,7 +50,7 @@ public class CategoriesController
      * Method Description
      * - Returns List of All Categories by ID
      */
-    @RequestMapping(path = "/categories/{CategoryID}", method = RequestMethod.GET)
+    @GetMapping("{id}")
     public Category getById(@PathVariable int id) {
 
         return categoryDao.getById(id);
@@ -60,7 +60,7 @@ public class CategoriesController
      * Method Description
      * - Returns List of Products by the CategoryId
      */
-    @RequestMapping(path = "{categoryId}/products", method = RequestMethod.GET)
+    @GetMapping("{categoryId}/products")
     public List<Product> getProductsById(@PathVariable int categoryId) {
        return productDao.listByCategoryId(categoryId);
     }
@@ -69,7 +69,7 @@ public class CategoriesController
      * Method Description
      * - Adds a New Category
      */
-    @RequestMapping(path = "categories/{categoryId}", method = RequestMethod.POST)
+    @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
     @PreAuthorize("hasRole('ADMIN')")
     public Category addCategory(@RequestBody Category category) {
@@ -81,7 +81,7 @@ public class CategoriesController
      * Method Description
      * - Update an Existing Category
      */
-    @RequestMapping(path = "categories/{categoryId}")
+    @PutMapping("{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public void updateCategory(@PathVariable int id, @RequestBody Category category) {
 
@@ -92,7 +92,7 @@ public class CategoriesController
      * Method Description
      * - Update an Existing Category
      */
-    @RequestMapping(path = "/categories/{categoryId}", method = RequestMethod.DELETE)
+    @DeleteMapping("{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public void deleteCategory(@PathVariable int id) {
         categoryDao.delete(id);
