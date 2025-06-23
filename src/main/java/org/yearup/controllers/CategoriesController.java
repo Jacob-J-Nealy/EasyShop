@@ -40,7 +40,11 @@ public class CategoriesController
         List<Category> categories = categoryDao.getAllCategories();
         return categories;
     }
-    
+
+    /**
+     * Method Description
+     * - Returns List of All Categories by ID
+     */
     @RequestMapping(path = "/categories/{CategoryID}", method = RequestMethod.GET)
     public Category getById(@PathVariable int id) {
 
