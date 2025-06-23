@@ -38,11 +38,11 @@ public class CategoriesController
     public List<Category> getAll() {
 
         List<Category> categories = categoryDao.getAllCategories();
-
         return categories;
     }
 
     // add the appropriate annotation for a get action
+    @RequestMapping(path = "/categories/{CategoryID}", method = RequestMethod.GET)
     public Category getById(@PathVariable int id)
     {
         // get the category by id
