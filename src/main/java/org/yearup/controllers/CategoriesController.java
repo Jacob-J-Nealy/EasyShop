@@ -9,30 +9,31 @@ import org.yearup.models.Product;
 
 import java.util.List;
 
-// add the annotations to make this a REST controller
 // add the annotation to make this controller the endpoint for the following url
     // http://localhost:8080/categories
 // add annotation to allow cross site origin requests
 
+
+// Rest Controller Class Annotation
 @RestController
 @RequestMapping("/categories")
 public class CategoriesController
 {
+    // Class Attributes
     private CategoryDao categoryDao;
     private ProductDao productDao;
 
+    // Autowired Constructor
     @Autowired
     public CategoriesController(CategoryDao categoryDao, ProductDao productDao) {
         this.categoryDao = categoryDao;
         this.productDao = productDao;
     }
 
-    // create an Autowired controller to inject the categoryDao and ProductDao
-
-    // add the appropriate annotation for a get action
-    public List<Category> getAll()
-    {
+    @RequestMapping(path = "/categories", method = RequestMethod.GET)
+    public List<Category> getAll(@RequestParam()) {
         // find and return all categories
+
         return null;
     }
 
