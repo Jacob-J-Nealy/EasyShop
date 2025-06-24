@@ -86,9 +86,10 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao {
                 VALUES (?,?);
                 """;
 
-        try (Connection connection = getConnection()) {
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+        ) {
 
-            PreparedStatement statement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
             statement.setString(1, category.getName());
             statement.setString(2, category.getDescription());
 
@@ -96,14 +97,14 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao {
 
             if (rowsAffected > 0) {
                 // Retrieve the generated keys
-                ResultSet generatedKeys = statement.getGeneratedKeys();
+                try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        // Retrieve the auto-incremented ID
+                        int categoryId = generatedKeys.getInt(1);
 
-                if (generatedKeys.next()) {
-                    // Retrieve the auto-incremented ID
-                    int categoryId = generatedKeys.getInt(1);
-
-                    // get the newly inserted category
-                    return getById(categoryId);
+                        // get the newly inserted category
+                        return getById(categoryId);
+                    }
                 }
             }
 
