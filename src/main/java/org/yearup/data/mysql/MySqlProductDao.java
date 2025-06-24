@@ -11,8 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class MySqlProductDao extends MySqlDaoBase implements ProductDao
-{
+public class MySqlProductDao extends MySqlDaoBase implements ProductDao {
+
+    // Auto Wired Constructor
     public MySqlProductDao(DataSource dataSource)
     {
         super(dataSource);

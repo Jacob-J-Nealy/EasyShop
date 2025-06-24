@@ -14,11 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao
-{
-
-    // DataSource Attribute
-    private DataSource dataSource;
+public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao {
 
     // Auto Wired Constructor
     @Autowired
@@ -27,6 +23,8 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao
         super(dataSource);
     }
 
+
+    // Get All Categories Method
     @Override
     public List<Category> getAllCategories() {
 
@@ -37,7 +35,7 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao
                 FROM categories
                 """;
 
-        try (Connection connection = dataSource.getConnection();
+        try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(sql);
              ResultSet resultSet = statement.executeQuery()) {
 
@@ -58,7 +56,25 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao
     @Override
     public Category getById(int categoryId)
     {
-        // get category by id
+        String sql = """ 
+        SELECT *
+        FROM categories
+        WHERE CategoryID = ?
+        """;
+        try (Connection connection = getConnection())
+        {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, categoryId);
+
+            ResultSet row = statement.executeQuery();
+
+            if (row.next()) {
+                return mapRow(row);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         return null;
     }
 
