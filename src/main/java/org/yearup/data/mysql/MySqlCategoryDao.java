@@ -80,8 +80,7 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao {
 
     // Finished ✅
     @Override
-    public Category create(Category category)
-    {
+    public Category create(Category category) {
         String sql = """
                 INSERT INTO categories (name, description)
                 VALUES (?,?);
@@ -117,8 +116,7 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao {
 
     // Finished ✅
     @Override
-    public void update(int categoryId, Category category)
-    {
+    public void update(int categoryId, Category category) {
         String sql = """
             UPDATE categories
             SET name = ?,
@@ -140,9 +138,20 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao {
     }
 
     @Override
-    public void delete(int categoryId)
-    {
-        // delete category
+    public void delete(int categoryId) {
+        String sql = """
+                DELETE FROM categories
+                WHERE category_id = ?
+                """;
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setInt(1, categoryId);
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private Category mapRow(ResultSet row) throws SQLException
