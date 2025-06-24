@@ -57,11 +57,11 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao {
         String sql = """ 
         SELECT *
         FROM categories
-        WHERE CategoryID = ?
+        WHERE category_id = ?
         """;
-        try (Connection connection = getConnection())
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql))
         {
-            PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, categoryId);
 
             ResultSet row = statement.executeQuery();
