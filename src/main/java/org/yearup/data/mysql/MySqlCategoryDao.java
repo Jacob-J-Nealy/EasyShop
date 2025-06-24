@@ -24,6 +24,7 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao {
     }
 
 
+    // Finished ✅
     // Get All Categories Method
     @Override
     public List<Category> getAllCategories() {
@@ -51,6 +52,7 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao {
         return categories;
     }
 
+    // Finished ✅
     @Override
     public Category getById(int categoryId)
     {
@@ -76,17 +78,47 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao {
         return null;
     }
 
+    // Finished ✅
     @Override
     public Category create(Category category)
     {
-        // create a new category
+        String sql = """
+                INSERT INTO categories (name, description)
+                VALUES (?,?);
+                """;
+
+        try (Connection connection = getConnection()) {
+
+            PreparedStatement statement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+            statement.setString(1, category.getName());
+            statement.setString(2, category.getDescription());
+
+            int rowsAffected = statement.executeUpdate();
+
+            if (rowsAffected > 0) {
+                // Retrieve the generated keys
+                ResultSet generatedKeys = statement.getGeneratedKeys();
+
+                if (generatedKeys.next()) {
+                    // Retrieve the auto-incremented ID
+                    int categoryId = generatedKeys.getInt(1);
+
+                    // get the newly inserted category
+                    return getById(categoryId);
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
         return null;
     }
 
     @Override
     public void update(int categoryId, Category category)
     {
-        // update category
+        String 
     }
 
     @Override
