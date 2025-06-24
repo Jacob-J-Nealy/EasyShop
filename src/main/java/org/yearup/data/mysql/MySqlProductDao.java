@@ -20,6 +20,7 @@ public class MySqlProductDao extends MySqlDaoBase implements ProductDao {
     }
 
     @Override
+    // Fixed Bug here
     public List<Product> search(Integer categoryId, BigDecimal minPrice, BigDecimal maxPrice, String color)
     {
         List<Product> products = new ArrayList<>();
@@ -33,26 +34,21 @@ public class MySqlProductDao extends MySqlDaoBase implements ProductDao {
                 AND (? IS NULL OR color = ?)
                 """;
 
-        categoryId = categoryId == null ? -1 : categoryId;
-        minPrice = minPrice == null ? new BigDecimal("-1") : minPrice;
-        maxPrice = maxPrice == null ? new BigDecimal("-1") : maxPrice;
-        color = color == null ? "" : color;
-
         try (Connection connection = getConnection())
         {
             PreparedStatement statement = connection.prepareStatement(sql);
 
-            statement.setInt(1, categoryId);
-            statement.setInt(2, categoryId);
+            statement.setObject(1, categoryId);
+            statement.setObject(2, categoryId);
 
-            statement.setBigDecimal(3, minPrice);
-            statement.setBigDecimal(4, minPrice);
+            statement.setObject(3, minPrice);
+            statement.setObject(4, minPrice);
 
-            statement.setBigDecimal(5, maxPrice);
-            statement.setBigDecimal(6, maxPrice);
+            statement.setObject(5, maxPrice);
+            statement.setObject(6, maxPrice);
 
-            statement.setString(7, color);
-            statement.setString(8, color);
+            statement.setObject(7, color);
+            statement.setObject(8, color);
 
             ResultSet row = statement.executeQuery();
 
