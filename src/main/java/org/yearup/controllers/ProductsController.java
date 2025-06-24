@@ -44,8 +44,7 @@ public class ProductsController
 
     @GetMapping("{id}")
     @PreAuthorize("permitAll()")
-    public Product getById(@PathVariable int id )
-    {
+    public Product getById(@PathVariable int id ) {
         Product product = null;
         try
         {
@@ -65,8 +64,7 @@ public class ProductsController
     }
 
     @PostMapping()
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public Product addProduct(@RequestBody Product product)
+    @PreAuthorize("hasRole('ROLE_ADMIN')") public Product addProduct(@RequestBody Product product)
     {
         try
         {
@@ -80,8 +78,7 @@ public class ProductsController
 
     @PutMapping("{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public void updateProduct(@PathVariable int id, @RequestBody Product product)
-    {
+    public void updateProduct(@PathVariable int id, @RequestBody Product product) {
         try
         {
             productDao.create(product);
@@ -94,8 +91,7 @@ public class ProductsController
 
     @DeleteMapping("{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public void deleteProduct(@PathVariable int id)
-    {
+    public void deleteProduct(@PathVariable int id) {
         try
         {
             var product = productDao.getById(id);
