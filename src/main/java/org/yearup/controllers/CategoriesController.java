@@ -18,6 +18,7 @@ import java.util.List;
 // add annotation to allow cross site origin requests
 
 
+// Fixed Bug Here
 // Rest Controller Class Annotation
 @RestController
 @RequestMapping("/categories")
@@ -54,7 +55,19 @@ public class CategoriesController
     @GetMapping("{id}")
     public Category getById(@PathVariable int id) {
 
-        return categoryDao.getById(id);
+        Category category = null;
+
+        try {
+            category = categoryDao.getById(id);
+        } catch (Exception ex) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
+        }
+
+        if (category == null) {
+         throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+
+        return  category;
     }
 
     /**
@@ -63,7 +76,8 @@ public class CategoriesController
      */
     @GetMapping("{categoryId}/products")
     public List<Product> getProductsById(@PathVariable int categoryId) {
-       return productDao.listByCategoryId(categoryId);
+
+        return productDao.listByCategoryId(categoryId);
     }
 
     /**
@@ -98,6 +112,7 @@ public class CategoriesController
      * - Update an Existing Category
      */
     @DeleteMapping("{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @PreAuthorize("hasRole('ADMIN')")
     public void deleteCategory(@PathVariable int id) {
         categoryDao.delete(id);
