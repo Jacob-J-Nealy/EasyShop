@@ -161,8 +161,7 @@ public class MySqlProductDao extends MySqlDaoBase implements ProductDao {
     }
 
     @Override
-    public void update(int productId, Product product)
-    {
+    public void update(int productId, Product product) {
         String sql = """
                 UPDATE products
                 SET name = ?
@@ -216,8 +215,7 @@ public class MySqlProductDao extends MySqlDaoBase implements ProductDao {
         }
     }
 
-    protected static Product mapRow(ResultSet row) throws SQLException
-    {
+    protected static Product mapRow(ResultSet row) throws SQLException {
         int productId = row.getInt("product_id");
         String name = row.getString("name");
         BigDecimal price = row.getBigDecimal("price");

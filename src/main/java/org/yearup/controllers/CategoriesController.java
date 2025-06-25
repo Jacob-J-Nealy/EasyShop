@@ -48,15 +48,14 @@ public class CategoriesController
         return categories;
     }
 
+    // Fixed Bug Here
     /**
      * Method Description
      * - Returns List of All Categories by ID
      */
     @GetMapping("{id}")
     public Category getById(@PathVariable int id) {
-
         Category category = null;
-
         try {
             category = categoryDao.getById(id);
         } catch (Exception ex) {
