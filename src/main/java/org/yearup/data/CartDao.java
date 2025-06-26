@@ -3,7 +3,7 @@ package org.yearup.data;
 import org.yearup.models.ShoppingCart;
 import org.yearup.models.ShoppingCartItem;
 
-public interface ShoppingCartDao
+public interface CartDao
 {
     ShoppingCart getByUserId(int userId);
     void add(int userId, ShoppingCartItem item);

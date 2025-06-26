@@ -6,7 +6,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.yearup.data.ProductDao;
-import org.yearup.data.ShoppingCartDao;
+import org.yearup.data.CartDao;
 import org.yearup.data.UserDao;
 import org.yearup.models.Product;
 import org.yearup.models.ShoppingCart;
@@ -26,14 +26,14 @@ import java.security.Principal;
 public class ShoppingCartController
 {
     // a shopping cart requires
-    private ShoppingCartDao shoppingCartDao;
+    private CartDao cartDao;
     private UserDao userDao;
     private ProductDao productDao;
 
     @Autowired
-    public ShoppingCartController(UserDao userDao, ShoppingCartDao shoppingCartDao, ProductDao productDao) {
+    public ShoppingCartController(UserDao userDao, CartDao cartDao, ProductDao productDao) {
         this.userDao = userDao;
-        this.shoppingCartDao = shoppingCartDao;
+        this.cartDao = cartDao;
         this.productDao = productDao;
     }
 
@@ -51,7 +51,7 @@ public class ShoppingCartController
             int userId = user.getId();
 
             // use the shoppingcartDao to get all items in the cart and return the cart
-            return shoppingCartDao.getByUserId(userId);
+            return cartDao.getByUserId(userId);
         }
         catch(Exception e)
         {
