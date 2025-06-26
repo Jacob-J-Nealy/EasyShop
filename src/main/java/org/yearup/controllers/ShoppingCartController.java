@@ -1,6 +1,8 @@
 package org.yearup.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,6 +21,8 @@ import java.security.Principal;
 @RestController
 @RequestMapping("/cart")
 @CrossOrigin // Why this?
+@PreAuthorize("isAuthenticated()")
+
 public class ShoppingCartController
 {
     // a shopping cart requires
@@ -26,7 +30,12 @@ public class ShoppingCartController
     private UserDao userDao;
     private ProductDao productDao;
 
-
+    @Autowired
+    public ShoppingCartController(UserDao userDao, ShoppingCartDao shoppingCartDao, ProductDao productDao) {
+        this.userDao = userDao;
+        this.shoppingCartDao = shoppingCartDao;
+        this.productDao = productDao;
+    }
 
     // each method in this controller requires a Principal object as a parameter
     public ShoppingCart getCart(Principal principal)
