@@ -28,7 +28,7 @@ public class ProductsController
 
     @GetMapping("")
     @PreAuthorize("permitAll()")
-    public List<Product> search(@RequestParam(name="categoryId", required = false) Integer categoryId,
+    public List<Product> search(@RequestParam(name="cat", required = false) Integer categoryId,
                                 @RequestParam(name="minPrice", required = false) BigDecimal minPrice,
                                 @RequestParam(name="maxPrice", required = false) BigDecimal maxPrice,
                                 @RequestParam(name="color", required = false) String color
@@ -57,8 +57,7 @@ public class ProductsController
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
         }
 
-        if(product == null)
-        {
+        if(product == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
 
@@ -66,14 +65,14 @@ public class ProductsController
     }
 
     @PostMapping()
+    // @ResponseStatus(value = HttpStatus.CREATED) // commented out for Postman
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Product addProduct(@RequestBody Product product) {
-        try
-        {
+
+        try {
             return productDao.create(product);
         }
-        catch(Exception ex)
-        {
+        catch(Exception ex) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
         }
     }

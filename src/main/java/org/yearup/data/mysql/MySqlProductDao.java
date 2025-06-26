@@ -38,17 +38,17 @@ public class MySqlProductDao extends MySqlDaoBase implements ProductDao {
         {
             PreparedStatement statement = connection.prepareStatement(sql);
 
-            statement.setObject(1, categoryId);
-            statement.setObject(2, categoryId);
+            statement.setInt(1, categoryId);
+            statement.setInt(2, categoryId);
 
-            statement.setObject(3, minPrice);
-            statement.setObject(4, minPrice);
+            statement.setBigDecimal(3, minPrice);
+            statement.setBigDecimal(4, minPrice);
 
-            statement.setObject(5, maxPrice);
-            statement.setObject(6, maxPrice);
+            statement.setBigDecimal(5, maxPrice);
+            statement.setBigDecimal(6, maxPrice);
 
-            statement.setObject(7, color);
-            statement.setObject(8, color);
+            statement.setString(7, color);
+            statement.setString(8, color);
 
             ResultSet row = statement.executeQuery();
 
@@ -107,13 +107,11 @@ public class MySqlProductDao extends MySqlDaoBase implements ProductDao {
 
             ResultSet row = statement.executeQuery();
 
-            if (row.next())
-            {
+            if (row.next()) {
                 return mapRow(row);
             }
         }
-        catch (SQLException e)
-        {
+        catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return null;
@@ -163,14 +161,14 @@ public class MySqlProductDao extends MySqlDaoBase implements ProductDao {
     @Override
     public void update(int productId, Product product) {
         String sql = """
-                UPDATE products
-                SET name = ?
-                    price = ?
-                    category_id = ?
-                    description = ?
-                    color = ?
-                    image_url = ?
-                    stock = ?
+                UPDATE products SET
+                name = ?,
+                    price = ?,
+                    category_id = ?,
+                    description = ?,
+                    color = ?,
+                    image_url = ?,
+                    stock = ?,
                     featured = ?
                 WHERE product_id = ?
                 """;

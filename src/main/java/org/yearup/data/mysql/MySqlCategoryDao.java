@@ -54,8 +54,7 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao {
 
     // Finished ✅
     @Override
-    public Category getById(int categoryId)
-    {
+    public Category getById(int categoryId) {
         String sql = """ 
         SELECT *
         FROM categories
