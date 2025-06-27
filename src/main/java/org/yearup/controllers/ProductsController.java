@@ -65,7 +65,6 @@ public class ProductsController
     }
 
     @PostMapping()
-    // @ResponseStatus(value = HttpStatus.CREATED) // commented out for Postman
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Product addProduct(@RequestBody Product product) {
 
