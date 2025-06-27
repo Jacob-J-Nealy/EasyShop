@@ -56,6 +56,8 @@ public class MySqlProfileDao extends MySqlDaoBase implements ProfileDao
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
+            statement.setInt(1, userId);
+
             try (ResultSet row = statement.executeQuery()) {
                 if (row.next()) {
                     return mapRow(row);
@@ -96,7 +98,7 @@ public class MySqlProfileDao extends MySqlDaoBase implements ProfileDao
             statement.setString(8, profile.getZip());
             statement.setInt(9, profile.getUserId());
 
-            statement.executeUpdate()
+            statement.executeUpdate();
 
         } catch (Exception e) {
             throw new RuntimeException(e);
