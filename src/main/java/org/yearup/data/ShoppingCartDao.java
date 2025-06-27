@@ -10,5 +10,6 @@ public interface ShoppingCartDao
     // Added These Methods for Shopping Cart
     void add(int userId, ShoppingCartItem item);
     void update(int userId, int productId, int quantity);
-    void delete(int userId);
+    void clear(int userId);
+    void removeItemFromCart(int userId, int productId);
 }

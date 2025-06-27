@@ -102,7 +102,8 @@ public class MySqlCartDao extends MySqlDaoBase implements ShoppingCartDao {
     }
 
     @Override
-    public void delete(int userId) {
+    // This method clears the Cart
+    public void clear(int userId) {
 
         String sql = """
                 DELETE FROM  shopping_cart
@@ -118,6 +119,27 @@ public class MySqlCartDao extends MySqlDaoBase implements ShoppingCartDao {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
         }
     }
+
+    @Override
+    public void removeItemFromCart(int userId, int productId) {
+        String sql = """
+            DELETE FROM shopping_cart
+            WHERE user_id = ?
+              AND product_id = ?
+            """;
+
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setInt(1, userId);
+            statement.setInt(2, productId);
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Could not remove item from cart.");
+        }
+    }
+
 
     // Helper Method
     private ShoppingCartItem mapRow(ResultSet row) throws SQLException {

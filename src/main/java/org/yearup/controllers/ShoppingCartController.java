@@ -63,7 +63,7 @@ public class ShoppingCartController
     // Created a POST method to add a product to the cart - the url should be
     // https://localhost:8080/cart/products/15 (15 is the productId to be added)
     @PostMapping("/products/{productId}")
-    public void addToCart(@PathVariable int productId, @RequestBody(required = false) ShoppingCartItem item, Principal principal)
+    public void addToCart(@PathVariable int productId, Principal principal)
     {
         try {
             String userName = principal.getName();
@@ -75,8 +75,21 @@ public class ShoppingCartController
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found");
             }
 
-            item.setProduct(product);
-            shoppingCartDao.add(userId, item);
+            // Check if item already exists in cart
+            ShoppingCart cart = shoppingCartDao.getByUserId(userId);
+            ShoppingCartItem existingItem = cart.getItems().get(productId);
+
+            if (existingItem != null) {
+                // Increase quantity by 1
+                int newQuantity = existingItem.getQuantity() + 1;
+                shoppingCartDao.update(userId, productId, newQuantity);
+            } else {
+                // Add new item with quantity 1
+                ShoppingCartItem newItem = new ShoppingCartItem();
+                newItem.setProduct(product);
+                newItem.setQuantity(1);
+                shoppingCartDao.add(userId, newItem);
+            }
 
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Could not add to cart");
@@ -111,10 +124,25 @@ public class ShoppingCartController
             User user = userDao.getByUserName(userName);
             int userId = user.getId();
 
-            shoppingCartDao.delete(userId);
+            shoppingCartDao.clear(userId);
 
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Could not clear cart");
         }
     }
+
+    @DeleteMapping("/products/{productId}")
+    public void removeItemFromShoppingCart(@PathVariable int productId, Principal principal) {
+        try {
+            String userName = principal.getName();
+            User user = userDao.getByUserName(userName);
+            int userId = user.getId();
+
+            shoppingCartDao.removeItemFromCart(userId, productId);
+
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Could not remove item from cart.");
+        }
+    }
+
 }
