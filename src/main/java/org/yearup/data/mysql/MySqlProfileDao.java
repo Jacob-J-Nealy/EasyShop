@@ -71,6 +71,21 @@ public class MySqlProfileDao extends MySqlDaoBase implements ProfileDao
     @Override
     public void update(Profile profile) {
 
+        String sql = """
+                UPDATE profiles
+                SET first_name = ?,
+                    last_name = ?,
+                    phone = ?,
+                    email = ?,
+                    address = ?,
+                    city = ?,
+                    state = ?,
+                    zip = ?
+                """;
+
+        try (Connection connection = getConnection()) {
+
+        }
     }
 
     private Profile mapRow(ResultSet row) throws SQLException {
