@@ -2,10 +2,9 @@ package org.yearup.controllers;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.yearup.data.ProfileDao;
+import org.yearup.models.Profile;
 
 @RestController
 @RequestMapping("/profile")
@@ -17,5 +16,18 @@ public class ProfileController {
     @Autowired
     public ProfileController(ProfileDao profileDao) {
         this.profileDao = profileDao;
+    }
+
+    @GetMapping
+    public Profile getProfile(@RequestParam int userId)
+    {
+        return profileDao.getByUserId(userId);
+    }
+
+    // PUT /profile
+    @PutMapping
+    public void updateProfile(@RequestBody Profile profile)
+    {
+        profileDao.update(profile);
     }
 }
