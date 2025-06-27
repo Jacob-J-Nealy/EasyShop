@@ -16,24 +16,23 @@ import org.yearup.models.User;
 import java.security.Principal;
 
 // convert this class to a REST controller
-// only logged in users should have access to these actions
+// only logged-in users should have access to these actions
 
 @RestController
 @RequestMapping("/cart")
 @CrossOrigin // Why this?
 @PreAuthorize("isAuthenticated()")
-
 public class ShoppingCartController
 {
     // a shopping cart requires
-    private ShoppingCartDao cartDao;
+    private ShoppingCartDao shoppingCartDao;
     private UserDao userDao;
     private ProductDao productDao;
 
     @Autowired
     public ShoppingCartController(UserDao userDao, ShoppingCartDao cartDao, ProductDao productDao) {
         this.userDao = userDao;
-        this.cartDao = cartDao;
+        this.shoppingCartDao = cartDao;
         this.productDao = productDao;
     }
 
@@ -51,7 +50,7 @@ public class ShoppingCartController
             int userId = user.getId();
 
             // use the shoppingcartDao to get all items in the cart and return the cart
-            return cartDao.getByUserId(userId);
+            return shoppingCartDao.getByUserId(userId);
         }
         catch(Exception e)
         {
@@ -61,6 +60,7 @@ public class ShoppingCartController
 
     // add a POST method to add a product to the cart - the url should be
     // https://localhost:8080/cart/products/15 (15 is the productId to be added
+    @PostMapping("/products/{productId}")
     public void addToCart(@PathVariable int productId, @RequestBody ShoppingCartItem item, Principal principal) {
 
         try {
@@ -69,11 +69,13 @@ public class ShoppingCartController
             int userId = user.getId();
 
             Product product = productDao.getById(productId);
-            if (product == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found");
+            if (product == null) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found");
+            }
 
             item.setProduct(product);
-            // shoppingCartDao.add
-
+            shoppingCartDao.add(userId, item);
+            
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Could not add to cart");
         }
