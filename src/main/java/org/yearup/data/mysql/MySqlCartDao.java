@@ -1,6 +1,7 @@
 package org.yearup.data.mysql;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 import org.yearup.data.ShoppingCartDao;
 import org.yearup.models.Product;
@@ -13,6 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+@Component
 public class MySqlCartDao extends MySqlDaoBase implements ShoppingCartDao {
 
     // Constructor

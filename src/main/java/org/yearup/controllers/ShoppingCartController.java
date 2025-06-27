@@ -37,7 +37,7 @@ public class ShoppingCartController
     }
 
     @GetMapping
-    @PreAuthorize("permitAll()")
+    @PreAuthorize("isAuthenticated()")
     public ShoppingCart getCart(Principal principal)
     {
         try
@@ -81,6 +81,10 @@ public class ShoppingCartController
         }
     }
 
+    // add a PUT method to update an existing product in the cart - the url should be
+    // https://localhost:8080/cart/products/15 (15 is the productId to be updated)
+    // the BODY should be a ShoppingCartItem - quantity is the only value that will be updated
+    @PutMapping
     public void updateCartItem(@PathVariable int productId,
                                @RequestBody ShoppingCartItem item,
                                Principal principal) {
@@ -92,19 +96,22 @@ public class ShoppingCartController
             shoppingCartDao.update(userId, productId, item.getQuantity());
 
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Could not add to cart");
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Could not update cart item");
         }
     }
 
-
-    // add a PUT method to update an existing product in the cart - the url should be
-    // https://localhost:8080/cart/products/15 (15 is the productId to be updated)
-    // the BODY should be a ShoppingCartItem - quantity is the only value that will be updated
-    @PutMapping("/products/{productId}")
-    public void updateCartItem(@PathVariable int productId,
-                               @RequestBody)
-
     // add a DELETE method to clear all products from the current users cart
     // https://localhost:8080/cart
+    @DeleteMapping public void clearCart(Principal principal) {
+        try {
+            String userName = principal.getName();
+            User user = userDao.getByUserName(userName);
+            int userId = user.getId();
 
+            shoppingCartDao.delete(userId);
+
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Could not clear cart");
+        }
+    }
 }
