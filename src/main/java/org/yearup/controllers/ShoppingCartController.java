@@ -61,8 +61,8 @@ public class ShoppingCartController
     // add a POST method to add a product to the cart - the url should be
     // https://localhost:8080/cart/products/15 (15 is the productId to be added
     @PostMapping("/products/{productId}")
-    public void addToCart(@PathVariable int productId, @RequestBody ShoppingCartItem item, Principal principal) {
-
+    public void addToCart(@PathVariable int productId, @RequestBody(required = false) ShoppingCartItem item, Principal principal)
+    {
         try {
             String userName = principal.getName();
             User user = userDao.getByUserName(userName);
