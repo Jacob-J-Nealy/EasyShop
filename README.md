@@ -81,7 +81,7 @@ spring.datasource.password=yourPassword
 ## Thanks
 
 Shout Out to my Potato Instructor Raymond Mourn for his french fry guidance
-Shout Out to Potato Sensei AI for all the Tips and Advice
+Shout Out to Potato Sensei AI for all the Tips and Advice (Not that much help for this Capstone
 Shout Out to Walter Donnellan (My Tutor) for sacrificing his lunch breaks and extra time to tutor me
 Shoutout Out to Tiffany Obi for being the realest Tutor out there! 
 
