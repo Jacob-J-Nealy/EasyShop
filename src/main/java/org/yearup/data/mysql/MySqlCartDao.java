@@ -106,8 +106,11 @@ public class MySqlCartDao extends MySqlDaoBase implements ShoppingCartDao {
                 DELETE FROM  shopping_cart
                 WHERE user_id = ?
                 """;
-        try {
-            
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+        } catch (SQLException e) {
+
         }
     }
 

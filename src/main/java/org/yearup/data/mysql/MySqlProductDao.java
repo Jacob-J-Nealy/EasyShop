@@ -1,6 +1,8 @@
 package org.yearup.data.mysql;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.web.server.ResponseStatusException;
 import org.yearup.models.Product;
 import org.yearup.data.ProductDao;
 
@@ -190,7 +192,7 @@ public class MySqlProductDao extends MySqlDaoBase implements ProductDao {
         }
         catch (SQLException e)
         {
-            throw new RuntimeException(e);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
         }
     }
 
@@ -200,16 +202,15 @@ public class MySqlProductDao extends MySqlDaoBase implements ProductDao {
         String sql = "DELETE FROM products " +
                 " WHERE product_id = ?;";
 
-        try (Connection connection = getConnection())
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql))
         {
-            PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, productId);
-
             statement.executeUpdate();
         }
         catch (SQLException e)
         {
-            throw new RuntimeException(e);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
         }
     }
 
