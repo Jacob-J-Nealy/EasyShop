@@ -14,6 +14,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+// Coded this Class from Scratch
+// - initially forgot the Component, essential to making this into a String Bean
 @Component
 public class MySqlCartDao extends MySqlDaoBase implements ShoppingCartDao {
 
