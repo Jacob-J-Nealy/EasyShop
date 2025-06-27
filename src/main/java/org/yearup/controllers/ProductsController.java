@@ -12,6 +12,8 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
+
+// BUG 🪲 Added / in front of products for path
 @RequestMapping("/products")
 @CrossOrigin
 public class ProductsController
@@ -47,7 +49,8 @@ public class ProductsController
     @GetMapping("{id}")
     @PreAuthorize("permitAll()")
     public Product getById(@PathVariable int id ) {
-        Product product = null;
+
+        Product product;
         try
         {
             product = productDao.getById(id);
@@ -64,6 +67,7 @@ public class ProductsController
         return product;
     }
 
+
     @PostMapping()
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Product addProduct(@RequestBody Product product) {
@@ -76,11 +80,14 @@ public class ProductsController
         }
     }
 
+    // Fixed Bug for Phase 2: says update instead of Delete Here
     @PutMapping("{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void updateProduct(@PathVariable int id, @RequestBody Product product) {
         try
         {
+            // BUG 🪲
+            // productDao.create(product);
             productDao.update(id, product);
         }
         catch(Exception ex)

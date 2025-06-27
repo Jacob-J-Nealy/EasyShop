@@ -16,52 +16,49 @@ import java.util.List;
 public class MySqlProductDao extends MySqlDaoBase implements ProductDao {
 
     // Auto Wired Constructor
-    public MySqlProductDao(DataSource dataSource)
-    {
+    public MySqlProductDao(DataSource dataSource) {
         super(dataSource);
     }
 
     @Override
-    // Fixed Bug here
-    public List<Product> search(Integer categoryId, BigDecimal minPrice, BigDecimal maxPrice, String color)
-    {
+    // Fixed Bug 🪲 here
+    // Before, the code was trying to filter products using SQL
+    // in this version it fixes the String sql by making it more clear
+    public List<Product> search(Integer categoryId, BigDecimal minPrice, BigDecimal maxPrice, String color) {
         List<Product> products = new ArrayList<>();
 
         String sql = """
                 SELECT *
                 FROM products
-                WHERE (? IS NULL OR category_id = ?)
-                AND (? IS NULL OR price >= ?)
-                AND (? IS NULL OR price <= ?)
-                AND (? IS NULL OR color = ?)
+                WHERE (category_id = ? OR ? IS NULL)
+                  AND (price >= ? OR ? IS NULL)
+                  AND (price <= ? OR ? IS NULL)
+                  AND (color = ? OR ? IS NULL)
                 """;
 
-        try (Connection connection = getConnection())
-        {
+        // Using Set Object Automatically handles null values
+        try (Connection connection = getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);
 
-            statement.setInt(1, categoryId);
-            statement.setInt(2, categoryId);
+            statement.setObject(1, categoryId);
+            statement.setObject(2, categoryId);
 
-            statement.setBigDecimal(3, minPrice);
-            statement.setBigDecimal(4, minPrice);
+            statement.setObject(3, minPrice);
+            statement.setObject(4, minPrice);
 
-            statement.setBigDecimal(5, maxPrice);
-            statement.setBigDecimal(6, maxPrice);
+            statement.setObject(5, maxPrice);
+            statement.setObject(6, maxPrice);
 
-            statement.setString(7, color);
-            statement.setString(8, color);
+            statement.setObject(7, color);
+            statement.setObject(8, color);
 
             ResultSet row = statement.executeQuery();
 
-            while (row.next())
-            {
+            while (row.next()) {
                 Product product = mapRow(row);
                 products.add(product);
             }
-        }
-        catch (SQLException e)
-        {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
@@ -73,23 +70,19 @@ public class MySqlProductDao extends MySqlDaoBase implements ProductDao {
         List<Product> products = new ArrayList<>();
 
         String sql = "SELECT * FROM products " +
-                    " WHERE category_id = ? ";
+                " WHERE category_id = ? ";
 
-        try (Connection connection = getConnection())
-        {
+        try (Connection connection = getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, categoryId);
 
             ResultSet row = statement.executeQuery();
 
-            while (row.next())
-            {
+            while (row.next()) {
                 Product product = mapRow(row);
                 products.add(product);
             }
-        }
-        catch (SQLException e)
-        {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
@@ -99,8 +92,7 @@ public class MySqlProductDao extends MySqlDaoBase implements ProductDao {
     @Override
     public Product getById(int productId) {
         String sql = "SELECT * FROM products WHERE product_id = ?";
-        try (Connection connection = getConnection())
-        {
+        try (Connection connection = getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, productId);
 
@@ -109,8 +101,7 @@ public class MySqlProductDao extends MySqlDaoBase implements ProductDao {
             if (row.next()) {
                 return mapRow(row);
             }
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return null;
@@ -122,8 +113,7 @@ public class MySqlProductDao extends MySqlDaoBase implements ProductDao {
         String sql = "INSERT INTO products(name, price, category_id, description, color, image_url, stock, featured) " +
                 " VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
 
-        try (Connection connection = getConnection())
-        {
+        try (Connection connection = getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
             statement.setString(1, product.getName());
             statement.setBigDecimal(2, product.getPrice());
@@ -148,9 +138,7 @@ public class MySqlProductDao extends MySqlDaoBase implements ProductDao {
                     return getById(orderId);
                 }
             }
-        }
-        catch (SQLException e)
-        {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return null;
@@ -171,8 +159,7 @@ public class MySqlProductDao extends MySqlDaoBase implements ProductDao {
                 WHERE product_id = ?
                 """;
 
-        try (Connection connection = getConnection())
-        {
+        try (Connection connection = getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, product.getName());
             statement.setBigDecimal(2, product.getPrice());
@@ -185,9 +172,7 @@ public class MySqlProductDao extends MySqlDaoBase implements ProductDao {
             statement.setInt(9, productId);
 
             statement.executeUpdate();
-        }
-        catch (SQLException e)
-        {
+        } catch (SQLException e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
         }
     }
@@ -201,13 +186,10 @@ public class MySqlProductDao extends MySqlDaoBase implements ProductDao {
                 """;
 
         try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql))
-        {
+             PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, productId);
             statement.executeUpdate();
-        }
-        catch (SQLException e)
-        {
+        } catch (SQLException e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
         }
     }

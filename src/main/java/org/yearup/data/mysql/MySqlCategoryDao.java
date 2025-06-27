@@ -23,9 +23,8 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao {
         super(dataSource);
     }
 
-
-    // Finished ✅
     // Get All Categories Method
+    // Added Code for this Method
     @Override
     public List<Category> getAllCategories() {
 
@@ -52,7 +51,8 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao {
         return categories;
     }
 
-    // Finished ✅
+    // GetById Method
+    // Added Code for this Method
     @Override
     public Category getById(int categoryId) {
         String sql = """ 
@@ -77,7 +77,7 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao {
         return null;
     }
 
-    // Finished ✅
+    // Added Code for this Method
     @Override
     public Category create(Category category) {
         String sql = """
@@ -114,7 +114,7 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao {
         return null;
     }
 
-    // Finished ✅
+    // Added Code for this Method
     @Override
     public void update(int categoryId, Category category) {
         String sql = """
@@ -137,6 +137,7 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao {
         }
     }
 
+    // Added Code for this Method
     @Override
     public void delete(int categoryId) {
         String sql = """

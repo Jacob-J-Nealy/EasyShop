@@ -13,13 +13,10 @@ import org.yearup.models.Product;
 
 import java.util.List;
 
-// add the annotation to make this controller the endpoint for the following url
-    // http://localhost:8080/categories
-// add annotation to allow cross site origin requests
-
-
-// Fixed Bug Here
-// Rest Controller Class Annotation
+// ADDED Annotations Here To:
+// - Turn Class into Rest Controller
+// - Map Path
+// - CrossOrigin
 @RestController
 @RequestMapping("/categories")
 @CrossOrigin
@@ -37,6 +34,7 @@ public class CategoriesController
 
     }
 
+    // ADDED Code for Method
     /**
      * Method Description
      * - Returns List of All Categories
@@ -48,7 +46,7 @@ public class CategoriesController
         return categories;
     }
 
-    // Fixed Bug Here
+    // ADDED Code for Method
     /**
      * Method Description
      * - Returns List of All Categories by ID
@@ -69,6 +67,7 @@ public class CategoriesController
         return  category;
     }
 
+    // ADDED Code for Method
     /**
      * Method Description
      * - Returns List of Products by the CategoryId
@@ -79,6 +78,7 @@ public class CategoriesController
         return productDao.listByCategoryId(categoryId);
     }
 
+    // ADDED Code for Method
     /**
      * Method Description
      * - Adds a New Category
@@ -95,6 +95,7 @@ public class CategoriesController
         }
     }
 
+    // Added Code for Method
     /**
      * Method Description
      * - Update an Existing Category
@@ -106,6 +107,7 @@ public class CategoriesController
         categoryDao.update(id, category);
     }
 
+    // Added Code for Method
     /**
      * Method Description
      * - Update an Existing Category

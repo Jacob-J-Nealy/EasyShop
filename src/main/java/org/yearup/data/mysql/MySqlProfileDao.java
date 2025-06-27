@@ -21,7 +21,7 @@ public class MySqlProfileDao extends MySqlDaoBase implements ProfileDao
         String sql = """
                 INSERT INTO profiles
                 (user_id, first_name, last_name, phone, email, address, city, state, zip)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """;
 
         try(Connection connection = getConnection())
@@ -48,6 +48,7 @@ public class MySqlProfileDao extends MySqlDaoBase implements ProfileDao
     }
 
     @Override
+    // Added This Method
     public Profile getByUserId(int userId) {
 
         String sql = """
@@ -73,6 +74,7 @@ public class MySqlProfileDao extends MySqlDaoBase implements ProfileDao
         }
     }
 
+    // Added This Method
     @Override
     public void update(Profile profile) {
 
@@ -109,6 +111,7 @@ public class MySqlProfileDao extends MySqlDaoBase implements ProfileDao
         }
     }
 
+    // Added This Helper Method
     private Profile mapRow(ResultSet row) throws SQLException {
         Profile profile = new Profile();
 
