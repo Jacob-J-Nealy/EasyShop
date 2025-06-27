@@ -83,8 +83,23 @@ public class MySqlProfileDao extends MySqlDaoBase implements ProfileDao
                     zip = ?
                 """;
 
-        try (Connection connection = getConnection()) {
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
 
+            statement.setString(1, profile.getFirstName());
+            statement.setString(2, profile.getLastName());
+            statement.setString(3, profile.getPhone());
+            statement.setString(4, profile.getEmail());
+            statement.setString(5, profile.getAddress());
+            statement.setString(6, profile.getCity());
+            statement.setString(7, profile.getState());
+            statement.setString(8, profile.getZip());
+            statement.setInt(9, profile.getUserId());
+
+            statement.executeUpdate()
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
