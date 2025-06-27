@@ -27,7 +27,9 @@ Despite bugs and setbacks, I stayed the course. I leaned heavily on Object-Orien
 
 ## 📌 Class Diagram
 
-*Add a class diagram image here if available.*
+*Non Presented*
+
+##
 
 ---
 ## 🧠 Technologies Used
