@@ -29,8 +29,11 @@ Despite bugs and setbacks, I stayed the course. I leaned heavily on Object-Orien
 
 *Non Presented*
 
-##
-
+## 📷 Pictures + Demo
+![Postman](https://github.com/user-attachments/assets/c455b440-ff6f-4918-a755-1b6aa8ff1284)
+![MySql](https://github.com/user-attachments/assets/711defaf-4738-4d7f-ba4e-48042251dd9d)
+![EasyShop (1)](https://github.com/user-attachments/assets/a4d2529d-6fdf-4d5c-97a9-a6846ef5dfda)
+![EasyShop (2)](https://github.com/user-attachments/assets/21ea8fc3-33a0-4465-8384-296c9f68f033)
 ---
 ## 🧠 Technologies Used
 
