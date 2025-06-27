@@ -52,22 +52,6 @@ public class MySqlCartDao extends MySqlDaoBase implements ShoppingCartDao {
 
     }
 
-    // Helper Method
-    private ShoppingCartItem mapRow(ResultSet row) throws SQLException {
-        int productId = row.getInt("product_id");
-        int quantity = row.getInt("quantity");
-
-        Product product = new Product();
-        product.setProductId(productId);
-
-        ShoppingCartItem item = new ShoppingCartItem();
-        item.setProduct(product);
-        item.setQuantity(quantity);
-
-        return item;
-    }
-
-
     @Override
     public void add(int userId, ShoppingCartItem item) {
         String sql = """
@@ -118,5 +102,27 @@ public class MySqlCartDao extends MySqlDaoBase implements ShoppingCartDao {
     @Override
     public void delete(int userId) {
 
+        String sql = """
+                DELETE FROM  shopping_cart
+                WHERE user_id = ?
+                """;
+        try {
+            
+        }
+    }
+
+    // Helper Method
+    private ShoppingCartItem mapRow(ResultSet row) throws SQLException {
+        int productId = row.getInt("product_id");
+        int quantity = row.getInt("quantity");
+
+        Product product = new Product();
+        product.setProductId(productId);
+
+        ShoppingCartItem item = new ShoppingCartItem();
+        item.setProduct(product);
+        item.setQuantity(quantity);
+
+        return item;
     }
 }
