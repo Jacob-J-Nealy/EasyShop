@@ -30,39 +30,6 @@ Despite bugs and setbacks, I stayed the course. I leaned heavily on Object-Orien
 *Add a class diagram image here if available.*
 
 ---
-
-## 📘 User Stories
-
-These guided the functionality and test-driven development for Phases 3 and 4:
-
-### 🛒 Shopping Cart (Phase 3)
-1. **As a customer**, I want to view the contents of my shopping cart so that I can see which items I’ve selected.
-   - Create `ShoppingCart` and `ShoppingCartItem` classes
-   - Implement GET `/cart` to return the user's current cart
-
-2. **As a customer**, I want to add a product to my shopping cart so I can build my order.
-   - Implement POST `/cart/products/{productId}`
-   - Add logic in DAO to increment quantity if the item already exists
-
-3. **As a customer**, I want to update the quantity of a product in my cart so that I can adjust my order.
-   - Implement PUT `/cart/products/{productId}`
-
-4. **As a customer**, I want to clear my cart when needed.
-   - Implement DELETE `/cart` to remove all items for a user
-
-### 👤 User Profile (Phase 4)
-5. **As a registered user**, I want to view my profile so I can confirm my personal information.
-   - Implement GET `/profile` using the authenticated user’s ID
-
-6. **As a registered user**, I want to update my profile so that my information remains current.
-   - Implement PUT `/profile` with updated values
-   - Profile data is stored in a `profiles` table, joined by user ID
-
-7. **As a developer**, I want to create a profile immediately after user registration so I can ensure data consistency.
-   - Automatically insert a blank profile entry in the `/register` POST
-
----
-
 ## 🧠 Technologies Used
 
 - **Java 17**
