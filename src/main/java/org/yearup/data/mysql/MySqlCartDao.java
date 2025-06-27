@@ -109,8 +109,11 @@ public class MySqlCartDao extends MySqlDaoBase implements ShoppingCartDao {
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
-        } catch (SQLException e) {
+            statement.setInt(1, userId);
+            statement.executeUpdate();
 
+        } catch (SQLException e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
         }
     }
 
